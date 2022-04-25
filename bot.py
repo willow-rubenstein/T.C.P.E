@@ -23,11 +23,19 @@ class Redeems:
         else:
             await bot.get_channel(968222515493220472).send(f"@everyone <@{uid}> has redeemed hydrate! Sippies time!!!")
 
+    async def wbonk(self, uid, showname):
+        await bot.get_channel(968222515493220472).send(f"<@829899151592390656>: <@{uid}> has redeemed a wrench bonk!!")
+
 redeems_dict = {
     "hydrate": {
         "desc": "Force the members to hydrate!",
         "cost": 100,
         "func": Redeems().hydrate
+    },
+    "wrench bonk": {
+        "desc": "Delta bonks you with a wrench!",
+        "cost": 10,
+        "func": Redeems().wbonk
     }
 }
 
@@ -89,10 +97,13 @@ async def redeem(
     redeem: str = SlashOption(description="What you are redeeming (use /redeems for a full list)", required=True),
     showname: str = SlashOption(description="Show your name on the group member ping? (Y/N)", required=False)
 ):
-    if showname.lower() == "n":
-      showname = False
+    if showname != None:
+        if showname.lower() == "n":
+          showname = False
+        else:
+          showname = True
     else:
-      showname = True
+        showname = True
     redeem = redeem.lower()
     if redeem in list(redeems_dict.keys()):
         if not await doRedeem(str(interaction.user.id), redeem, showname=showname):
