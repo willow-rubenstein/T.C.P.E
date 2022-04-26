@@ -84,10 +84,18 @@ async def redeems(interaction: Interaction):
     await interaction.response.send_message(embed=embed)
 
 @bot.slash_command(description="Get your current points!")
-async def getpoints(interaction: Interaction):
+async def getpoints(
+  interaction: Interaction,
+  who: nextcord.user.User = SlashOption(description="Specific User In Question?", required=False)
+):
+    if who:
+       user = who
+    else:
+       user = interaction.user
+    
     embed=nextcord.Embed(color=0x84a5f0)
-    embed.add_field(name=f"{interaction.user.display_name}'s points", value=getPoints(str(interaction.user.id)), inline=False)
-    ranking = sorted(stats, key=stats.get, reverse=True).index(str(interaction.user.id))+1
+    embed.add_field(name=f"{user.display_name}'s points", value=getPoints(str(user.id)), inline=False)
+    ranking = sorted(stats, key=stats.get, reverse=True).index(str(user.id))+1
     embed.set_footer(text=f"Server Rank: {ranking}/{len(list(stats.keys()))+1} | Bot created by Willow")
     await interaction.response.send_message(embed=embed)
 
