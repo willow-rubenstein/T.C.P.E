@@ -70,9 +70,7 @@ async def doRedeem(uid, redeem, showname):
 
 @bot.event
 async def on_message(message):
-    if message.author.id in [968143251360079983, 302050872383242240, 704802632660943089, 375805687529209857, 948664174114902037, 204255221017214977]:
-        return
-    else:
+    if not message.author.id in [968143251360079983, 302050872383242240, 704802632660943089, 375805687529209857, 948664174114902037, 204255221017214977]:
         changePoints("add", str(message.author.id), 0.5)
 
 @bot.slash_command(description="Get a list of possible channel point redemptions")
